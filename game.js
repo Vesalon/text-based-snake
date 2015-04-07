@@ -66,44 +66,24 @@ function left() {
     O[1] = (O[1] - 1 + lineLength) % lineLength;
     updateSnake();
     update(snake[0][0], snake[0][1]);
-    // for (i = 0; i < snake.length; i++) {
-    //     // console.log(snake[i][0] + " " + snake[i][1]);
-    //     update(snake[i][0], snake[i][1]);
-    // }
-    // console.log("move done");
 }
 
 function right() {
     O[1] = (O[1] + 1) % lineLength;
     updateSnake();
     update(snake[0][0], snake[0][1]);
-    // for (i = 0; i < snake.length; i++) {
-    //     // console.log(snake[i][0] + " " + snake[i][1]);
-    //     update(snake[i][0], snake[i][1]);
-    // }
-    // console.log("move done");
 }
 
 function up() {
     O[0] = (O[0] - 1 + numOfLines) % numOfLines;
     updateSnake();
     update(snake[0][0], snake[0][1]);
-    // for (i = 0; i < snake.length; i++) {
-    //     // console.log(snake[i][0] + " " + snake[i][1]);
-    //     update(snake[i][0], snake[i][1]);
-    // }
-    // console.log("move done");
 }
 
 function down() {
     O[0] = (O[0] + 1) % numOfLines;
     updateSnake();
     update(snake[0][0], snake[0][1]);
-    // for (i = 0; i < snake.length; i++) {
-    //     // console.log(snake[i][0] + " " + snake[i][1]);
-    //     update(snake[i][0], snake[i][1]);
-    // }
-    // console.log("move done");
 }
 
 function update(y, x) {
@@ -144,9 +124,6 @@ function update(y, x) {
 function addToSnake() {
     var newO = [-1, -1];
     snake[snake.length] = newO;
-    for (i = 0; i < snake.length; i++) {
-        // console.log(snake[i][0] + " " + snake[i][1]);
-    }
 }
 
 function updateSnake() {
