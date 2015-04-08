@@ -2,23 +2,33 @@
 <html>
     <body onkeydown = move()>
     <head>
-        <title>Real time messing around</title>
+        <title>Snake!</title>
         <style>
             p.small {
-                line-height: 0%;
+                line-height: 100%;
                 font-family: monospace;
                 white-space: pre;
+                margin: 0;
             }
             div {
-                /*display: block;*/
+                background-color: grey;
+                display: block;
                 width: 265px;
                 padding: 1px;
                 border: 25px solid black;
             }
+            td.tdtest {
+                padding: 0px 0px;
+                border-width: 1px;
+                border-collapse: collapse;
+                border-style: solid;
+            }
         </style>
     </head>
 
-    <div >
+    <table>
+    <tr class = "tabletest">
+    <td class = "tdtest">
         <p class ="small" id = "line0">                                     </p>
         <p class ="small" id = "line1">                                     </p>
         <p class ="small" id = "line2">                                     </p>
@@ -40,9 +50,12 @@
         <p class ="small" id = "line18">                                     </p>
         <p class ="small" id = "line19">                                     </p>
         <p class ="small" id = "line20">                                     </p>
-    </div>
+    </td>
+    </tr>
+    </table>
 
     <p id = "score"></p>
+    <p>Use WASD to move</p>
 
     <script src="game.js"></script>
 
