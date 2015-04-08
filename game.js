@@ -41,6 +41,7 @@ function move() {
             turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
+            left();
             e = setInterval(function(){left()}, 85);
         }
     } else if (event.keyCode == 68){
@@ -48,6 +49,7 @@ function move() {
             turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
+            right();
             e = setInterval(function(){right()}, 85);
         }
     } else if (event.keyCode == 87){
@@ -55,6 +57,7 @@ function move() {
             turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
+            up();
             e = setInterval(function(){up()}, 95);
         }
     } else if (event.keyCode == 83){
@@ -62,6 +65,7 @@ function move() {
             turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
+            down();
             e = setInterval(function(){down()}, 95);
         }
     }
