@@ -34,27 +34,32 @@ function updateScore() {
 }
 var e;
 var previous = -1;
+var turnDone = true;
 function move() {
     if (event.keyCode == 65){
-        if (previous != 65 && previous != 68) {
+        if (previous != 65 && previous != 68 && turnDone) {
+            turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
             e = setInterval(function(){left()}, 85);
         }
     } else if (event.keyCode == 68){
-        if (previous != 68 && previous != 65) {
+        if (previous != 68 && previous != 65 && turnDone) {
+            turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
             e = setInterval(function(){right()}, 85);
         }
     } else if (event.keyCode == 87){
-        if (previous != 87 && previous != 83) {
+        if (previous != 87 && previous != 83 && turnDone) {
+            turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
             e = setInterval(function(){up()}, 95);
         }
     } else if (event.keyCode == 83){
-        if (previous != 83 && previous != 87) {
+        if (previous != 83 && previous != 87 && turnDone) {
+            turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
             e = setInterval(function(){down()}, 95);
@@ -87,6 +92,7 @@ function down() {
 }
 
 function update(y, x) {
+    turnDone = false;
     for (i = 1; i < snake.length; i++) {
         if (O[0] == snake[i][0] && O[1] == snake[i][1]) {
             clearInterval(e);
@@ -119,6 +125,7 @@ function update(y, x) {
         str = str1 + 'O' + str2;
         document.getElementById(line).innerHTML = str;
     }
+    turnDone = true;
 }
 
 function addToSnake() {
