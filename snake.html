@@ -17,18 +17,21 @@
                 padding: 1px;
                 border: 25px solid black;
             }
-            td.tdtest {
+            td.game {
                 padding: 0px 0px;
                 border-width: 1px;
                 border-collapse: collapse;
                 border-style: solid;
             }
+            td.menu {
+                vertical-align: top;
+            }
         </style>
     </head>
 
     <table>
-    <tr class = "tabletest">
-    <td class = "tdtest">
+    <tr>
+    <td class = "game">
         <p class ="small" id = "line0">                                     </p>
         <p class ="small" id = "line1">                                     </p>
         <p class ="small" id = "line2">                                     </p>
@@ -51,11 +54,13 @@
         <p class ="small" id = "line19">                                     </p>
         <p class ="small" id = "line20">                                     </p>
     </td>
+    <td class="menu">
+        <p id = "score"></p>
+        <p>Use WASD to move</p>
+    </td>
     </tr>
     </table>
 
-    <p id = "score"></p>
-    <p>Use WASD to move</p>
 
     <script src="game.js"></script>
 

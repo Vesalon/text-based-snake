@@ -32,6 +32,14 @@ function updateScore() {
     score++;
     document.getElementById('score').innerHTML = "Score: " + score;
 }
+var speed = 85;
+function updateSpeed(percentChange) {
+    if (percentChange == 0) {
+        speed = 85;
+    } else {
+        speed *= (1 - percentChange/100);
+    }
+}
 var e;
 var previous = -1;
 var turnDone = true;
@@ -42,7 +50,7 @@ function move() {
             previous = event.keyCode;
             clearInterval(e);
             left();
-            e = setInterval(function(){left()}, 85);
+            e = setInterval(function(){left()}, speed);
         }
     } else if (event.keyCode == 68){
         if (previous != 68 && previous != 65 && turnDone) {
@@ -50,7 +58,7 @@ function move() {
             previous = event.keyCode;
             clearInterval(e);
             right();
-            e = setInterval(function(){right()}, 85);
+            e = setInterval(function(){right()}, speed);
         }
     } else if (event.keyCode == 87){
         if (previous != 87 && previous != 83 && turnDone) {
@@ -58,7 +66,7 @@ function move() {
             previous = event.keyCode;
             clearInterval(e);
             up();
-            e = setInterval(function(){up()}, 95);
+            e = setInterval(function(){up()}, Math.round(speed*(98/81)));
         }
     } else if (event.keyCode == 83){
         if (previous != 83 && previous != 87 && turnDone) {
@@ -66,7 +74,7 @@ function move() {
             previous = event.keyCode;
             clearInterval(e);
             down();
-            e = setInterval(function(){down()}, 95);
+            e = setInterval(function(){down()}, Math.round(speed*(98/81)));
         }
     }
 }
@@ -111,6 +119,7 @@ function update(y, x) {
             score = -1;
             previous = -1;
             updateScore();
+            updateSpeed(0);
             return;
         }
     }
@@ -124,6 +133,7 @@ function update(y, x) {
         document.getElementById(line).innerHTML = str;
         addToSnake();
         updateScore();
+        updateSpeed(2);
         generateX();
     } else {
         str = str1 + 'O' + str2;
