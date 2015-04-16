@@ -12,7 +12,7 @@ function generateX() {
     var generate = true;
     for (i = 0; i < snake.length; i++) {
         if (y == snake[i][0] && x == snake[i][1]) {
-            generateX();
+            generate = false;
         }
     }
     if (!generate) {
@@ -66,7 +66,7 @@ function move() {
             previous = event.keyCode;
             clearInterval(e);
             up();
-            e = setInterval(function(){up()}, Math.round(speed*(98/81)));
+            e = setInterval(function(){up()}, speed*98/81);
         }
     } else if (event.keyCode == 83){
         if (previous != 83 && previous != 87 && turnDone) {
@@ -74,7 +74,7 @@ function move() {
             previous = event.keyCode;
             clearInterval(e);
             down();
-            e = setInterval(function(){down()}, Math.round(speed*(98/81)));
+            e = setInterval(function(){down()}, speed*98/81);
         }
     }
 }
