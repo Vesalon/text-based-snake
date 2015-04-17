@@ -1,11 +1,15 @@
-var score = -1;
+var score = -1; //after running updateScore, it starts at 0
 var numOfLines = 21;
 var lineLength = 37;
 updateScore();
-var O = [Math.floor(numOfLines/2), Math.floor(lineLength/2)];
-var snake = [];
+var O = [Math.floor(numOfLines/2), Math.floor(lineLength/2)]; //represents snake's head
+var snake = []; //array of coordinates to represent the snake
 snake[0] = [O[0], O[1]];
 generateX();
+/**
+* generates "apple" for snake to eat
+* takes care of possibility of 'X' being generated where the snake exists
+*/
 function generateX() {
     var x = Math.floor(Math.random() * lineLength);
     var y = Math.floor(Math.random() * numOfLines);
@@ -27,11 +31,17 @@ function generateX() {
     }
 }
 
-
+/*
+* updates score, is executed when snake reaches an apple
+*/
 function updateScore() {
     score++;
     document.getElementById('score').innerHTML = "Score: " + score;
 }
+
+/*
+* method used to make snake move faster as time goes on
+*/
 var speed = 85;
 function updateSpeed(percentChange) {
     if (percentChange == 0) {
@@ -40,6 +50,11 @@ function updateSpeed(percentChange) {
         speed *= (1 - percentChange/100);
     }
 }
+/*
+* the function that the page executes anytime a key is pressed
+* takes into account current direction/last direction change
+* uses boolean to make sure that moves cannot be made simultaneously
+*/
 var e;
 var previous = -1;
 var turnDone = true;
@@ -78,7 +93,10 @@ function move() {
         }
     }
 }
-
+/*
+* each of these methods moves the snake head in a certain direction, then
+* use updateSnake() method to finish the rest of the movements
+*/
 function left() {
     O[1] = (O[1] - 1 + lineLength) % lineLength;
     updateSnake();
@@ -103,6 +121,13 @@ function down() {
     update(snake[0][0], snake[0][1]);
 }
 
+/*
+* updates the field to account for the change from each move
+* if head lands on top of other part of snake, reset initial setting and start
+* new game
+* if head lands on apple, generate new apple, add new element to snake array
+* and update speed by decreasing time interval of moves by 1.5%
+*/
 function update(y, x) {
     turnDone = false;
     for (i = 1; i < snake.length; i++) {
@@ -133,7 +158,7 @@ function update(y, x) {
         document.getElementById(line).innerHTML = str;
         addToSnake();
         updateScore();
-        updateSpeed(2);
+        updateSpeed(1.5);
         generateX();
     } else {
         str = str1 + 'O' + str2;
@@ -141,12 +166,18 @@ function update(y, x) {
     }
     turnDone = true;
 }
-
+/*
+* adds new element into snake (coordinate outside of palying field)
+*/
 function addToSnake() {
     var newO = [-1, -1];
     snake[snake.length] = newO;
 }
-
+/*
+* basically shifts every element to be in the position of the element that came
+* before it
+* takes into account if a element was added in on the last turn
+*/
 function updateSnake() {
     var lastY = snake[snake.length - 1][0];
     var lastX = snake[snake.length - 1][1];

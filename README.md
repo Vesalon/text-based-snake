@@ -1,5 +1,4 @@
 # text-based-snake
-attempt to create a game of snake in javascript.
-I made the repository late into the development process because I originally
-intended for this to simply be a small area to play around with javascript and
-strings.
+This is a spin on the classic game of Snake, written in javascript, and sctrictly
+uses only text and no GUI.
+To play, simply download or clone repository and run snake.html
