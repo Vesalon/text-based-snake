@@ -50,6 +50,32 @@ function updateSpeed(percentChange) {
         speed *= (1 - percentChange/100);
     }
 }
+
+var paused = false;
+var rememberSpeed = speed;
+function pause() {
+    if (paused) {
+        speed = rememberSpeed;
+        clearInterval(e);
+        if (previous == 65) {
+            e = setInterval(function(){left()}, speed);
+        } else if (previous == 68) {
+            e = setInterval(function(){right()}, speed);
+        } else if (previous == 87) {
+            e = setInterval(function(){up()}, speed);
+        } else if (previous == 83) {
+            e = setInterval(function(){down()}, speed);
+        }
+        document.getElementById('pause').innerHTML = "Pause";
+    } else {
+        rememberSpeed = speed;
+        speed = 10000;
+        clearInterval(e);
+        document.getElementById('pause').innerHTML = "Start";
+    }
+    paused = !paused;
+}
+
 /*
 * the function that the page executes anytime a key is pressed
 * takes into account current direction/last direction change
@@ -60,7 +86,7 @@ var previous = -1;
 var turnDone = true;
 function move() {
     if (event.keyCode == 65){
-        if (previous != 65 && previous != 68 && turnDone) {
+        if (previous != 65 && previous != 68 && turnDone && !paused) {
             turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
@@ -68,7 +94,7 @@ function move() {
             e = setInterval(function(){left()}, speed);
         }
     } else if (event.keyCode == 68){
-        if (previous != 68 && previous != 65 && turnDone) {
+        if (previous != 68 && previous != 65 && turnDone && !paused) {
             turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
@@ -76,7 +102,7 @@ function move() {
             e = setInterval(function(){right()}, speed);
         }
     } else if (event.keyCode == 87){
-        if (previous != 87 && previous != 83 && turnDone) {
+        if (previous != 87 && previous != 83 && turnDone && !paused) {
             turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
@@ -84,13 +110,15 @@ function move() {
             e = setInterval(function(){up()}, speed*98/81);
         }
     } else if (event.keyCode == 83){
-        if (previous != 83 && previous != 87 && turnDone) {
+        if (previous != 83 && previous != 87 && turnDone && !paused) {
             turnDone = false;
             previous = event.keyCode;
             clearInterval(e);
             down();
             e = setInterval(function(){down()}, speed*98/81);
         }
+    } else if (event.keyCode == 32){
+        pause();
     }
 }
 /*
