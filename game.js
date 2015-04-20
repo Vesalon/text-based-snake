@@ -5,10 +5,10 @@ updateScore();
 var O = [Math.floor(numOfLines/2), Math.floor(lineLength/2)]; //represents snake's head
 var snake = []; //array of coordinates to represent the snake
 snake[0] = [O[0], O[1]];
-generateX();
 var portal1 = [];
 var partal2 = [];
 generatePortal();
+generateX();
 /**
 * generates "apple" for snake to eat
 * takes care of possibility of 'X' being generated where the snake exists
@@ -18,7 +18,9 @@ function generateX() {
     var y = Math.floor(Math.random() * numOfLines);
     var generate = true;
     for (i = 0; i < snake.length; i++) {
-        if (y == snake[i][0] && x == snake[i][1]) {
+        if (y == snake[i][0] && x == snake[i][1] ||
+            y == portal1[0] && x == portal1[1] ||
+            y == portal2[0] && x == portal2[1]) {
             generate = false;
         }
     }
