@@ -6,6 +6,9 @@ var O = [Math.floor(numOfLines/2), Math.floor(lineLength/2)]; //represents snake
 var snake = []; //array of coordinates to represent the snake
 snake[0] = [O[0], O[1]];
 generateX();
+var portal1 = [];
+var partal2 = [];
+generatePortal();
 /**
 * generates "apple" for snake to eat
 * takes care of possibility of 'X' being generated where the snake exists
@@ -31,6 +34,40 @@ function generateX() {
     }
 }
 
+function generatePortal() {
+    var x1 = Math.floor(Math.random() * lineLength);
+    var y1 = Math.floor(Math.random() * numOfLines);
+    var x2 = Math.floor(Math.random() * lineLength);
+    var y2 = Math.floor(Math.random() * numOfLines);
+    var generate = true;
+    for (i = 0; i < snake.length; i++) {
+        if (y1 == snake[i][0] && x1 == snake[i][1] &&
+            y1 == snake[i][0] && x1 == snake[i][1] &&
+            y1 == y2 && x1 == x2) {
+            generate = false;
+        }
+    }
+    if (!generate) {
+        generatePortal();
+    } else {
+        var line1 = 'line' + y1;
+        var str1 = document.getElementById(line1).innerHTML;
+        var str11 = str1.substring(0, x1);
+        var str12 = str1.substring(x1 + 1, lineLength);
+        str1 = str11 + '+' + str12;
+        document.getElementById(line1).innerHTML = str1;
+
+        var line2 = 'line' + y2;
+        var str2 = document.getElementById(line2).innerHTML;
+        var str21 = str2.substring(0, x2);
+        var str22 = str2.substring(x2 + 1, lineLength);
+        str2 = str21 + '+' + str22;
+        document.getElementById(line2).innerHTML = str2;
+        portal1 = [y1, x1];
+        portal2 = [y2, x2];
+    }
+}
+
 /*
 * updates score, is executed when snake reaches an apple
 */
@@ -51,6 +88,9 @@ function updateSpeed(percentChange) {
     }
 }
 
+/*
+* used to pause/start game
+*/
 var paused = false;
 var rememberSpeed = speed;
 function pause() {
@@ -207,6 +247,35 @@ function addToSnake() {
 * takes into account if a element was added in on the last turn
 */
 function updateSnake() {
+    if (O[0] == portal1[0] && O[1] == portal1[1]) {
+        if (previous == 65) {
+            O[0] = portal2[0];
+            O[1] = portal2[1] - 1;
+        } else if (previous == 68) {
+            O[0] = portal2[0];
+            O[1] = portal2[1] + 1;
+        } else if (previous == 87) {
+            O[0] = portal2[0] - 1;
+            O[1] = portal2[1];
+        } else if (previous == 83) {
+            O[0] = portal2[0] + 1;
+            O[1] = portal2[1];
+        }
+    } else if (O[0] == portal2[0] && O[1] == portal2[1]) {
+        if (previous == 65) {
+            O[0] = portal1[0];
+            O[1] = portal1[1] - 1;
+        } else if (previous == 68) {
+            O[0] = portal1[0];
+            O[1] = portal1[1] + 1;
+        } else if (previous == 87) {
+            O[0] = portal1[0] - 1;
+            O[1] = portal1[1];
+        } else if (previous == 83) {
+            O[0] = portal1[0] + 1;
+            O[1] = portal1[1];
+        }
+    }
     var lastY = snake[snake.length - 1][0];
     var lastX = snake[snake.length - 1][1];
     if (lastY == -1) {
