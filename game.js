@@ -37,10 +37,10 @@ function generateX() {
 }
 
 function generatePortal() {
-    var x1 = Math.floor(Math.random() * lineLength);
-    var y1 = Math.floor(Math.random() * numOfLines);
-    var x2 = Math.floor(Math.random() * lineLength);
-    var y2 = Math.floor(Math.random() * numOfLines);
+    var x1 = Math.floor(Math.random() * (lineLength - 2)) + 1;
+    var y1 = Math.floor(Math.random() * (numOfLines - 2)) + 1;
+    var x2 = Math.floor(Math.random() * (lineLength - 2)) + 1;
+    var y2 = Math.floor(Math.random() * (numOfLines - 2)) + 1;
     var generate = true;
     for (i = 0; i < snake.length; i++) {
         if (y1 == snake[i][0] && x1 == snake[i][1] &&
@@ -56,18 +56,49 @@ function generatePortal() {
         var str1 = document.getElementById(line1).innerHTML;
         var str11 = str1.substring(0, x1);
         var str12 = str1.substring(x1 + 1, lineLength);
-        str1 = str11 + '+' + str12;
+        str1 = str11 + '@' + str12;
         document.getElementById(line1).innerHTML = str1;
 
         var line2 = 'line' + y2;
         var str2 = document.getElementById(line2).innerHTML;
         var str21 = str2.substring(0, x2);
         var str22 = str2.substring(x2 + 1, lineLength);
-        str2 = str21 + '+' + str22;
+        str2 = str21 + '@' + str22;
         document.getElementById(line2).innerHTML = str2;
         portal1 = [y1, x1];
         portal2 = [y2, x2];
     }
+}
+
+var portalOn = true;
+function resetPortal() {
+    reset();
+    if (portalOn) {
+        var x1 = portal1[1];
+        var y1 = portal1[0];
+        var x2 = portal2[1];
+        var y2 = portal2[0];
+        var line1 = 'line' + y1;
+        var str1 = document.getElementById(line1).innerHTML;
+        var str11 = str1.substring(0, x1);
+        var str12 = str1.substring(x1 + 1, lineLength);
+        str1 = str11 + ' ' + str12;
+        document.getElementById(line1).innerHTML = str1;
+
+        var line2 = 'line' + y2;
+        var str2 = document.getElementById(line2).innerHTML;
+        var str21 = str2.substring(0, x2);
+        var str22 = str2.substring(x2 + 1, lineLength);
+        str2 = str21 + ' ' + str22;
+        document.getElementById(line2).innerHTML = str2;
+        portal1 = [];
+        portal2 = [];
+        document.getElementById("portal").innerHTML = "Reset without Portal";
+    } else {
+        document.getElementById("portal").innerHTML = "Reset with Portal";
+        generatePortal();
+    }
+    portalOn = !portalOn;
 }
 
 /*
@@ -202,19 +233,9 @@ function update(y, x) {
     turnDone = false;
     for (i = 1; i < snake.length; i++) {
         if (O[0] == snake[i][0] && O[1] == snake[i][1]) {
-            clearInterval(e);
-            for (j = 1; j < snake.length; j++) {
-                updateSnake();
-            }
-            window.alert("Game Over\nScore: " + score);
-            O = [Math.floor(numOfLines/2), Math.floor(lineLength/2)];
-            snake = [];
-            snake[0] = [O[0], O[1]];
-            update(snake[0][0], snake[0][1]);
-            score = -1;
-            previous = -1;
-            updateScore();
-            updateSpeed(0);
+            var endScore = score;
+            reset();
+            window.alert("Game Over\nScore: " + endScore);
             return;
         }
     }
@@ -249,33 +270,35 @@ function addToSnake() {
 * takes into account if a element was added in on the last turn
 */
 function updateSnake() {
-    if (O[0] == portal1[0] && O[1] == portal1[1]) {
-        if (previous == 65) {
-            O[0] = portal2[0];
-            O[1] = portal2[1] - 1;
-        } else if (previous == 68) {
-            O[0] = portal2[0];
-            O[1] = portal2[1] + 1;
-        } else if (previous == 87) {
-            O[0] = portal2[0] - 1;
-            O[1] = portal2[1];
-        } else if (previous == 83) {
-            O[0] = portal2[0] + 1;
-            O[1] = portal2[1];
-        }
-    } else if (O[0] == portal2[0] && O[1] == portal2[1]) {
-        if (previous == 65) {
-            O[0] = portal1[0];
-            O[1] = portal1[1] - 1;
-        } else if (previous == 68) {
-            O[0] = portal1[0];
-            O[1] = portal1[1] + 1;
-        } else if (previous == 87) {
-            O[0] = portal1[0] - 1;
-            O[1] = portal1[1];
-        } else if (previous == 83) {
-            O[0] = portal1[0] + 1;
-            O[1] = portal1[1];
+    if (portalOn) {
+        if (O[0] == portal1[0] && O[1] == portal1[1]) {
+            if (previous == 65) {
+                O[0] = portal2[0];
+                O[1] = portal2[1] - 1;
+            } else if (previous == 68) {
+                O[0] = portal2[0];
+                O[1] = portal2[1] + 1;
+            } else if (previous == 87) {
+                O[0] = portal2[0] - 1;
+                O[1] = portal2[1];
+            } else if (previous == 83) {
+                O[0] = portal2[0] + 1;
+                O[1] = portal2[1];
+            }
+        } else if (O[0] == portal2[0] && O[1] == portal2[1]) {
+            if (previous == 65) {
+                O[0] = portal1[0];
+                O[1] = portal1[1] - 1;
+            } else if (previous == 68) {
+                O[0] = portal1[0];
+                O[1] = portal1[1] + 1;
+            } else if (previous == 87) {
+                O[0] = portal1[0] - 1;
+                O[1] = portal1[1];
+            } else if (previous == 83) {
+                O[0] = portal1[0] + 1;
+                O[1] = portal1[1];
+            }
         }
     }
     var lastY = snake[snake.length - 1][0];
@@ -296,4 +319,25 @@ function updateSnake() {
         snake[i] = snake[i - 1];
     }
     snake[0] = [O[0], O[1]];
+}
+
+function reset() {
+    clearInterval(e);
+    for (j = 1; j < snake.length; j++) {
+        updateSnake();
+    }
+    O = [Math.floor(numOfLines/2), Math.floor(lineLength/2)];
+    var line = 'line' + snake[0][0];
+    var str = document.getElementById(line).innerHTML;
+    var str1 = str.substring(0, snake[0][1]);
+    var str2 = str.substring(snake[0][1] + 1, lineLength);
+    str = str1 + ' ' + str2;
+    document.getElementById(line).innerHTML = str;
+    snake = [];
+    snake[0] = [O[0], O[1]];
+    update(snake[0][0], snake[0][1]);
+    score = -1;
+    previous = -1;
+    updateScore();
+    updateSpeed(0);
 }
