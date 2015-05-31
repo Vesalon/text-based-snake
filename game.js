@@ -93,9 +93,9 @@ function resetPortal() {
         document.getElementById(line2).innerHTML = str2;
         portal1 = [];
         portal2 = [];
-        document.getElementById("portal").innerHTML = "Reset without Portal";
-    } else {
         document.getElementById("portal").innerHTML = "Reset with Portal";
+    } else {
+        document.getElementById("portal").innerHTML = "Reset without Portal";
         generatePortal();
     }
     portalOn = !portalOn;
